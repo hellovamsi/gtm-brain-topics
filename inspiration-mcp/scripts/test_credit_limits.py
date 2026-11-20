@@ -36,6 +36,11 @@ class CreditLimits(unittest.TestCase):
         digest = module.hashlib.sha256(b"example|workflow").hexdigest()[:20]
         self.run_id = f"inspiration-{self.today}-{digest}"
 
+    def test_denied_approval_does_not_collect(self):
+        self.native.return_value = False
+        self.assertEqual(module.collect_focus(self.profile, self.focus, True), "approval_required")
+        self.request.assert_not_called()
+
     def test_direct_audience_fetch(self):
         audience = "independent illustrators"
         profile = "https://www.linkedin.com/in/illustrator"

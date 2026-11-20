@@ -6,6 +6,7 @@ description: |
   sources in the fitting contexts. Triggers: "/gtmb-sync", "sync", "what's new in my
   tools", "catch up", "pull the latest".
   Also "sync every morning", "schedule the sync", "set up the daily refresh" (the recurring run).
+  Focused people and conversation discovery belongs to gtmb-audience-loop; topic prioritization to gtmb-topic-analyzer.
 allowed-tools: [Bash, Read]
 ---
 

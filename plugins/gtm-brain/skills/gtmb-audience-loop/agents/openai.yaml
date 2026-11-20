@@ -1,0 +1,4 @@
+interface:
+  display_name: "GTM Brain: Audience loop"
+  short_description: "Find relevant people, hosts and timely conversations"
+  default_prompt: "Use $gtmb-audience-loop to find relevant people and conversations for our selected offering."

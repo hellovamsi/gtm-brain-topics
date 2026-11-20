@@ -164,6 +164,32 @@
     "example": "Sync recent updates from my connected tools."
   },
   {
+    "id": "gtmb-topic-analyzer",
+    "group": "daily",
+    "role": "everyday",
+    "featured": false,
+    "title": "Analyze audience topics",
+    "description": "Rank recurring buyer questions and problems with sourced evidence, confidence and review.",
+    "example": "Analyze which topics matter to our buyers.",
+    "reads": [
+      "strategy",
+      "icp"
+    ]
+  },
+  {
+    "id": "gtmb-audience-loop",
+    "group": "daily",
+    "role": "everyday",
+    "featured": false,
+    "title": "Find people and conversations",
+    "description": "Discover ICP candidates, conversation hosts and timely opportunities with separate role evidence.",
+    "example": "Run the audience loop for our selected offering.",
+    "reads": [
+      "strategy",
+      "icp"
+    ]
+  },
+  {
     "id": "gtmb-use-brain",
     "group": "knowledge",
     "role": "everyday",

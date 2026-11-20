@@ -2,6 +2,7 @@ import { Fragment, useRef, useState, type FormEvent, type MouseEvent } from "rea
 import { useDownload, useOpenExternal, useViewState } from "skybridge/web";
 import { useCallTool, useToolInfo } from "../helpers.js";
 import type { AudienceTopic } from "../audience.js";
+import { noveltyLabels, variationLabels, placeInterest } from "../placement.js";
 import "./inspiration-map.css";
 
 type Step = "audience" | "focus" | "map" | "review" | "export";
@@ -10,9 +11,6 @@ type Workflow = {
   topics?: AudienceTopic[]; baseline?: string; collection?: string; liveRequested?: boolean;
   picks?: string[];
 };
-const countLabels = ["1", "2–3", "4+"];
-function countBand(count: number) { return count < 2 ? 0 : count < 4 ? 1 : 2; }
-
 function sourceProfile(value: string) {
   try {
     const url = new URL(value);
@@ -40,7 +38,7 @@ export default function InspirationMap() {
   const [showMarkdown, setShowMarkdown] = useState(false);
   const audience = saved.audience ?? "";
   const focus = saved.focus ?? "";
-  const topics = saved.topics ?? [];
+  const topics = (saved.topics ?? []).map(topic => ({ ...topic, ...placeInterest(topic.title, topic.sources[0].excerpt, focus) }));
   const active = topics.find(topic => topic.id === activeId) ?? topics[0];
   const picked = topics.filter(topic => saved.picks?.includes(topic.id));
   let step = saved.step ?? "audience";
@@ -48,7 +46,7 @@ export default function InspirationMap() {
   else if (step !== "audience" && !focus) step = "focus";
   else if (step === "review" || (step === "export" && !picked.length)) step = "map";
   const md = ["# Selected audience interests", `Audience: ${audience}`, `Focus: ${focus}`,
-    ...picked.map(topic => [`## ${topic.title}`, topic.summary,
+    ...picked.map(topic => [`## ${topic.title}`, `${topic.novelty} · ${topic.variation}`, topic.summary,
       ...topic.sources.map(source => `- ${source.postedAt.slice(0, 10)} · ${source.url}`)
     ].join("\n\n"))
   ].join("\n\n") + "\n";
@@ -222,21 +220,21 @@ export default function InspirationMap() {
         {collectionNotice && <p className="status" role="status">{collectionNotice}</p>}
         <p className="baseline">{saved.baseline}</p>
         {active && <>
-          <section aria-label="Audience interests by number of authors and posts" className="plot">
-            <div className="angle-label">Distinct authors ↑</div><div className="grid">
-              {[2, 1, 0].map((row, i) => <Fragment key={row}><span className="row-label">{countLabels[row]}</span>
-                {countLabels.map((_, col) => <div key={col} className={`cell t${col} a${i}`}>
-                  {topics.map((topic, index) => countBand(topic.authorCount) === row && countBand(topic.postCount) === col &&
+          <section aria-label="Audience interests by topic novelty and variation" className="plot">
+            <div className="angle-label">Variation in angle ↑</div><div className="grid">
+              {[2, 1, 0].map((row, i) => <Fragment key={row}><span className="row-label">{variationLabels[row]}</span>
+                {noveltyLabels.map((label, col) => <div key={col} className={`cell t${col} a${i}`}>
+                  {topics.map((topic, index) => topic.variation === variationLabels[row] && topic.novelty === label &&
                     <button type="button" disabled={busy} className="point" key={topic.id} title={topic.title}
                       aria-label={`Explore topic ${index + 1}, ${topic.title}`} aria-pressed={topic.id === active.id}
                       onClick={() => setActiveId(topic.id)}>{index + 1}</button>)}
                 </div>)}</Fragment>)}
-              <span/>{countLabels.map(label => <span className="col-label" key={label}>{label}</span>)}
-            </div><div className="topic-label">Source posts →</div>
+              <span/>{noveltyLabels.map(label => <span className="col-label" key={label}>{label}</span>)}
+            </div><div className="topic-label">Topic novelty relative to your focus →</div>
           </section>
           <article className="detail" aria-live="polite">
             <div className="meta">Topic {topics.indexOf(active) + 1} of {topics.length} · {active.postCount} {active.postCount === 1 ? "post" : "posts"} · {active.authorCount} {active.authorCount === 1 ? "author" : "authors"}</div>
-            <h2>{active.title}</h2><p>{active.summary}</p>
+            <h2>{active.title}</h2><p className="meta">{active.novelty} · {active.variation}</p><p>{active.summary}</p>
             <details className="evidence"><summary>Audience sources ({active.sources.length})</summary>
               {active.sources.map(source => <div className="source" key={source.url}>
                 <p>{source.excerpt}</p>{source.membershipEvidence && <p className="meta">{source.membershipEvidence}</p>}<a href={source.url} onClick={openSource}>Read post · {source.postedAt.slice(0, 10)} ↗</a> · <a href={source.author} onClick={openSource}>Author ↗</a>

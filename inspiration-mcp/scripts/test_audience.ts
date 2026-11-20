@@ -51,3 +51,16 @@ test("only compatible audience definitions use project candidates",async()=>{
   assert.deepEqual(await resolveAudienceProfiles("London freelancers",undefined,file),[]);
   assert.deepEqual(await resolveAudienceProfiles("London freelancers",[outsider],file),[outsider]);
 });
+
+test("novelty and variation can change independently", async () => {
+  const { placeInterest } = await import("../src/placement.js");
+  const focus = "invoice automation";
+  assert.deepEqual(placeInterest("Invoice automation", "I track each invoice.", focus),
+    { novelty: "Familiar topic", variation: "Variation" });
+  assert.deepEqual(placeInterest("Invoice automation", "A common mistake is tracking only totals.", focus),
+    { novelty: "Familiar topic", variation: "Fresh take" });
+  assert.deepEqual(placeInterest("Invoice terms", "As a designer I compare payment schedules.", focus),
+    { novelty: "Related topic", variation: "Different lens" });
+  assert.deepEqual(placeInterest("Building community", "We meet every Friday.", focus),
+    { novelty: "Adjacent topic", variation: "Variation" });
+});

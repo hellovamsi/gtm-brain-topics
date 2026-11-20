@@ -2,7 +2,7 @@
 
 1. Ask who the target audience is and request the user's own LinkedIn profile. Discover audience profiles automatically from the description and author evidence. Exclude the user's posts from the audience sample.
 2. Ask what the person is building or doing.
-3. Research interests directly in English evidence from audience members. Show those interests on a selectable light-mode map, along with source links and evidence of audience fit.
+3. Research interests directly in English evidence from audience members. Show those interests on a selectable light-mode map with horizontal topic novelty relative to the stated focus and vertical variation in the source’s angle, along with source links and evidence of audience fit.
 4. Let the person pick one or more interests.
 5. Export the selected interests and their source links as Markdown.
 

@@ -4,7 +4,7 @@
 
 1. Describe your target audience and enter your own LinkedIn profile.
 2. Enter what you are building or doing.
-3. Research posts by audience members. Open a topic on the map to inspect the dated posts, excerpts and audience-fit evidence behind it. The two axes show how many distinct authors and how many posts support the topic.
+3. Research posts by audience members. Open a topic on the map to inspect the dated posts, excerpts and audience-fit evidence behind it. The horizontal axis estimates topic novelty relative to your stated focus. The vertical axis estimates whether the featured excerpt offers a variation, a different lens or a fresh take. Author and post counts appear in the topic detail.
 4. Pick the interests you want to explore.
 5. Export the selected topics and their sources as Markdown.
 

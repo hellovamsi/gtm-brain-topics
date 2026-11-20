@@ -1,3 +1,4 @@
+import { discoveryTerms, matchesFocus, terms } from "./placement.js";
 import { createHash } from "node:crypto";
 import { readFile, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
@@ -125,29 +126,6 @@ export async function readCacheEvidence(cacheDir = process.env.INSPIRATION_CACHE
     }
   }
   return { posts, interactions };
-}
-
-const stop = new Set("a about an and are as at be by can do for from how i in into is it my of on or our that the their them these this to we what when which with you your".split(" "));
-function terms(text: string) {
-  return new Set((text.toLowerCase().match(/[\p{L}\p{N}]+/gu) ?? [])
-    .filter(word => !stop.has(word)).map(word => word.length > 4 ? word.replace(/s$/, "") : word));
-}
-// In "task factory for solopreneurs", the suffix describes the audience.
-// Founder posts only need to discuss the core topic to seed the map.
-function discoveryTerms(focus: string) {
-  const subject = focus.trim().match(/^(task\s+factor(?:y|ies))\s+for\s+.+$/i);
-  return subject ? terms("task factory") : terms(focus);
-}
-function matchesFocus(words: Set<string>, focus: Set<string>) {
-  if (!focus.size) return false;
-  if ([...focus].every(term => words.has(term))) return true;
-  if (focus.size === 2 && focus.has("task") && focus.has("factory")) {
-    const automation = ["workflow", "automation", "automate", "automating"];
-    const recurring = ["routine", "backup", "task", "recurring", "repeatable", "freelancer", "spreadsheet", "processe", "process"];
-    return (automation.some(term => words.has(term)) && recurring.some(term => words.has(term)))
-      || (words.has("ai") && words.has("spreadsheet") && words.has("processe"));
-  }
-  return false;
 }
 
 function treatment(seed: Post, other: Post, focus: string) {

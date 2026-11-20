@@ -28,7 +28,7 @@ node scripts/smoke.mjs http://localhost:3000/mcp
 1. Enter **independent exhibition designers** as the audience and your own LinkedIn profile URL. The URL identifies posts to exclude from audience evidence. The app discovers audience authors.
 2. Enter **a tool for turning project handoffs into repeatable tasks** as your focus.
 3. Expand **Existing evidence**. Paste the synthetic fixture below into **Evidence JSON**, then click **Build map from evidence**. The fixture uses example identities and illustrative post links. For actual research, supply dated English posts with real author and post URLs, or use an existing research cache.
-4. Click a numbered point on the map and expand **Audience sources** to inspect the evidence. The horizontal axis counts source posts and the vertical axis counts authors. Click **Select topic** for each interest you want.
+4. Click a numbered point on the map and expand **Audience sources** to inspect the evidence. The horizontal axis estimates topic novelty relative to your stated focus. The vertical axis estimates whether the featured excerpt offers a variation, a different lens or a fresh take. Author and post counts appear in the topic detail. Click **Select topic** for each interest you want.
 5. Click **Export topics**, review your selection, then choose **Download Markdown** or **Save to local workspace**. The server shows the saved filename.
 
 ```json

@@ -2,6 +2,9 @@
 
 This fork ships two independent research skills and two manual draft workflows.
 
+The [decision record](TOPIC-AND-AUDIENCE-DECISIONS.md) captures Philipp's choices,
+the first version's architecture and its remaining validation limits.
+
 | Skill | Question it answers | Result |
 | --- | --- | --- |
 | `/gtmb-topic-analyzer` | Which recurring questions and problems deserve our attention? | Sourced topic shortlist, confidence, proposed angles and reviewed priorities |

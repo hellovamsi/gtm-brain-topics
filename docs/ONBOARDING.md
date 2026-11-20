@@ -152,6 +152,8 @@ summary is written when you ask about it. When you want a specific workflow:
 |---|---|
 | Know what to do next | `/gtmb-todo` |
 | Pull in what arrived through your tools | `/gtmb-sync` |
+| Analyze audience topics from sourced questions and problems | `/gtmb-topic-analyzer` |
+| Discover relevant people, hosts and conversations | `/gtmb-audience-loop` |
 | Get a one-page brief before a call | `/gtmb-deepdive` |
 | Decide whether to push, fix, stop or measure growth spend | `/gtmb-unit-economics` |
 | Assess a market, its segments and competitors against what you can prove today | `/gtmb-market-research` |

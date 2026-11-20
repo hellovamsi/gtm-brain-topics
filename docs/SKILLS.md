@@ -1,6 +1,6 @@
 # The shipped skills
 
-Twenty-nine skills ship with GTM Brain. A skill is one sitting of work you start in a Codex chat
+Thirty-one skills ship with GTM Brain. A skill is one sitting of work you start in a Codex chat
 opened in the brain's folder: type its command, `/gtmb-<name>`, or say the sentence beside it.
 For the difference from a workflow, your own skill and an interaction see
 [How GTM Brain works: Skills, projects and interactions](HOW-IT-WORKS.md#skills-projects-and-interactions).
@@ -81,6 +81,16 @@ preview, and `/gtmb-publish-website` needs your Vercel and GitHub connectors. Th
 skills use Brian Woloszczak and Peakout's GTM Tech Week starter; GTM Brain bundles its pinned
 source unchanged and plugin updates never rewrite your website project. See the
 [preservation contract](../plugins/gtm-brain/starters/web-design-system/README.md).
+
+## Topic and audience research
+
+| Command | Use it for | Or say |
+| --- | --- | --- |
+| `/gtmb-topic-analyzer` | Compare recurring audience questions and problems with sourced evidence | "analyze our topics" |
+| `/gtmb-audience-loop` | Discover relevant people, conversation hosts and timely opportunities | "run the audience loop" |
+
+Each has a separate manual draft workflow for staged runs. Their evidence handoff is optional;
+neither starts the other. See [topic and audience workflows](TOPIC-AND-AUDIENCE.md).
 
 ## Older names
 

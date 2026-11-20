@@ -58,6 +58,15 @@ what is waiting on me?
 open the dashboard
 ```
 
+Two separate research skills are available in this fork:
+
+| Work | Command |
+| --- | --- |
+| Analyze audience topics from sourced questions and problems | `/gtmb-topic-analyzer` |
+| Discover relevant people, hosts and conversations | `/gtmb-audience-loop` |
+
+Both also have manual draft workflows for staged runs. See [topic and audience workflows](docs/TOPIC-AND-AUDIENCE.md).
+
 ## More
 
 - [Everyday use, the dashboard, updating](docs/GUIDE.md)

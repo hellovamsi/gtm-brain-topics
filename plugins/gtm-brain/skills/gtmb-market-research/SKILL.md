@@ -9,6 +9,7 @@ description: |
   "is this segment worth it", "market sizing", "who competes in", "desk research on".
 metadata:
   needs: "kind:organization, kind:product"
+  Topic prioritization belongs to gtmb-topic-analyzer; people and conversation discovery to gtmb-audience-loop.
 allowed-tools: [Bash, Read, WebFetch, WebSearch]
 ---
 

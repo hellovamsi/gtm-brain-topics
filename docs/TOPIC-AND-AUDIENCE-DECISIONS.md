@@ -55,3 +55,29 @@ production readiness. Merge status is recorded by the pull request and git histo
 - Decide whether a provider adapter or collector belongs in this fork after a concrete need is established.
 - Complete broad compatibility and live validation before treating this version as an operational release.
 - Decide separately when to install it and adopt either workflow in a company brain.
+
+## Contribution contract update — 20 November 2026
+
+Philipp selected review next step 1 ("run 1"): bring the latest filtering requirements into
+the fork. Both skills and manual workflow templates now reference one shared contribution
+eligibility contract. Company-specific values remain outside the shipped plugin; broad topic
+inventory stays distinct from contribution recommendations. Version prepared: 0.38.2.
+
+The update carries the prototype's requirements for configurable format exclusions, profile
+and topic fit, concrete angles, evidence/configuration bindings and consistent downstream
+eligibility. It is a skill/workflow contract, not a port of the executable prototype or a
+verified application adapter. Installation and operational adoption remain separate next steps.
+
+## Post-centred process and publication — 20 November 2026
+
+Philipp supplied a sketch connecting ICP engagement, posts, host authorship, participant
+discovery and content analysis, with filters/gates on expansion. He requested that the updated
+process be clearly documented and pushed to main together with the other local changes before
+further work. The owning process document now distinguishes the two expansion branches, broad
+topic inventory, contribution selection, per-role admission and feedback into the next run.
+
+“Who reads?” is operationalized as observed participation, not inferred passive readership.
+The proposed complete-cycle milestone is explicitly separated from the implemented prototypes
+and reusable skill contracts. This publication includes the pending 0.38.2 contribution update
+and the private-workspace ignore rule; no private workspace, research dataset or source image
+is included. It does not install or activate the workflows.

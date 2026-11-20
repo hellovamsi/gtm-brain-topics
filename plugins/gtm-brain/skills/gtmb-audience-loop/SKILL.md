@@ -28,6 +28,11 @@ existing collector and its ledger, separate from the workflow's progress notes.
 
 ## Discover and assess
 
+Before producing contribution recommendations, apply the shared
+[contribution eligibility contract](../gtmb-topic-analyzer/references/contribution-filtering.md). Resolve company parameters,
+bind assessments to evidence and profile revisions, and feed every recommendation and export
+from the same eligible set. Keep broad research inventory separate from eligible opportunities.
+
 Use available connected sources and dated supplied evidence. Before collection, follow
 [collection and evidence](../gtmb-topic-analyzer/references/evidence.md).
 Review useful cached conversations and productive tracked hosts first. Expand through relevant

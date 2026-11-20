@@ -46,3 +46,6 @@ npm-debug.log*
 .gstack/
 
 tools/demo-week/.env
+
+# Private local GTM Brain workspaces (business data and runtime state).
+/local-workspaces/

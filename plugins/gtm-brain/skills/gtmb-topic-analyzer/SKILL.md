@@ -27,6 +27,11 @@ A missing source is a gap, not permission for paid collection. Read
 
 ## Analyze and review
 
+Before producing contribution recommendations, apply the shared
+[contribution eligibility contract](references/contribution-filtering.md). Resolve company parameters,
+bind assessments to evidence and profile revisions, and feed every recommendation and export
+from the same eligible set. Keep broad research inventory separate from eligible opportunities.
+
 Cluster by the audience's underlying problem or question, preserving source wording.
 Compare relevance, recurrence, urgency and confidence independently. Produce a compact table:
 topic, audience/problem, independent evidence and dates, contradictory evidence, relevance,

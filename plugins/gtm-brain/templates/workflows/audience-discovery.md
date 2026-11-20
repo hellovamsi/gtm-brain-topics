@@ -22,13 +22,14 @@ This workflow does not start the other workflow or create a schedule.
 - **Audience and offering**: selected profile and relevant buyer definition.
 - **Scope and sources**: objective, source set, time window and quality target.
 - **Research authority**: permitted access, request/run/daily/cumulative caps or existing evidence only.
+- **Contribution policy**: company configuration reference/revision for profile, formats, fit, contribution topics, angle and freshness; inventory-only scope when no contribution recommendations are requested.
 - **Review and output**: reviewer, report destination and existing context for findings.
 
 ## Steps
 
 1. **Frame discovery** (skill: gtmb-audience-loop). Confirm selected profile, roles, geography, freshness, result target and research authority. Record a run-scoped completion note through the workflow tool with tag audience-frame only after the work is verified. Milestone: a note tagged audience-frame.
 2. **Discover candidates** (skill: gtmb-audience-loop). Reconcile pending requests, reuse evidence and expand discovery within authorized limits. Record a run-scoped completion note through the workflow tool with tag audience-evidence only after the work is verified. Milestone: a note tagged audience-evidence.
-3. **Assess opportunities** (skill: gtmb-audience-loop). Qualify ICP and host roles independently and prepare sourced opportunities and separate nominations. Record a run-scoped completion note through the workflow tool with tag audience-reviewed only after the work is verified. Milestone: a note tagged audience-reviewed.
+3. **Assess opportunities** (skill: gtmb-audience-loop). Qualify ICP and host roles independently. Apply the shared contribution contract across all discovery routes; prepare sourced opportunities, aggregates and recommendation exports from the same eligible set, with excluded and needs-screening counts. Keep nominations separate. Record a run-scoped completion note through the workflow tool with tag audience-reviewed only after the work is verified. Milestone: a note tagged audience-reviewed.
 4. **Capture feedback** (skill: gtmb-audience-loop). Ask the person for per-role decisions and opportunity feedback; record the actual response and any authorized list updates. Record a run-scoped completion note through the workflow tool with tag audience-feedback only after the work is verified. Milestone: a note tagged audience-feedback.
 
 ## Learn

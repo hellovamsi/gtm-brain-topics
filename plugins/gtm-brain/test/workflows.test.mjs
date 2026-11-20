@@ -402,9 +402,16 @@ test("topic and audience workflows resume independently without transferring mil
   const settled = JSON.stringify({
     "Audience and offering": "Operations leaders for the selected offering",
     "Scope and sources": "Supplied interview notes only",
+    "Contribution policy": "Inventory only; no contribution recommendations",
     "Research authority": "Existing evidence only; no collection",
     "Review and output": "Marta reviews in the offer context"
   });
+  const incomplete = JSON.parse(settled);
+  delete incomplete["Contribution policy"];
+  for (const slug of ["topic-analysis", "audience-discovery"]) {
+    assert.match(refusedBy(root, "--start", slug, "--context", "offer", "--handle", "missing-policy", "--settled", JSON.stringify(incomplete), "--by", "marta").text, /Contribution policy/);
+  }
+  assert.equal(wf.listRuns(root).length, 0, "missing policy must not start a run");
   const today = wf.localDate();
   for (const slug of ["topic-analysis", "audience-discovery"]) {
     workflow(root, "--start", slug, "--context", "offer", "--handle", "fixture", "--settled", settled, "--by", "marta");

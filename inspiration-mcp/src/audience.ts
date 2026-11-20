@@ -12,7 +12,7 @@ export const audienceInput = {
   audience: audienceText,
   founderProfile: profileUrl.optional().describe("The user’s own LinkedIn profile. Exclude this author from audience discovery."),
   profiles: z.array(profileUrl).max(50).optional().describe("Legacy audience seeds for existing integrations. Omit for automatic discovery; never ask the user to supply these."),
-  focus: focusText.optional().describe("Editorial focus for later drafting. Audience discovery is independent of it."),
+  focus: focusText.optional().describe("Editorial context for the topic selection. Audience discovery is independent of it."),
   evidence: z.object({ posts: z.array(postSchema).max(500) }).optional(),
   requestApproval: z.boolean().optional(),
   maxCredits: z.number().int().min(1).max(100).optional(),
@@ -27,9 +27,7 @@ const topicSchema = z.object({
   postCount: z.number().int().positive(), authorCount: z.number().int().positive(),
   sources: z.array(sourceSchema).min(1).max(8),
 });
-export const draftInput = { audience: audienceText, focus: focusText, topics: z.array(topicSchema).min(1).max(24) };
 export type AudienceTopic = z.infer<typeof topicSchema>;
-export type AudienceSuggestion = { id: string; topicId: string; title: string; reason: string; offerConnection: string; samplePost: string; audienceSource: string };
 type Post = z.infer<typeof postSchema>;
 type Input = { audience: string; founderProfile?: string; profiles?: string[]; focus?: string; evidence?: { posts: Post[] } };
 type Source = z.infer<typeof sourceSchema>;
@@ -88,16 +86,16 @@ function identityEvidence(post: Post, audience: string) {
   }
 }
 
-type Theme = { title: string; pattern: RegExp; action: string };
+type Theme = { title: string; pattern: RegExp };
 const themes: Theme[] = [
-  { title: "Finding and keeping clients", pattern: /\b(client acquisition|lead generation|finding clients|find clients|referrals?|sales pipeline|inbound leads?)\b/i, action: "Choose one lead source and follow a client enquiry from first contact to a booked conversation. Record where the handoff stalled." },
-  { title: "Pricing and getting paid", pattern: /\b(pricing|hourly rates?|day rates?|raising rates|invoic(?:e|es|ing)|late payments?|payment terms)\b/i, action: "Compare the last two quotes or invoices. Identify one item the client needed explained and make it explicit before the next handoff." },
-  { title: "Writing and publishing", pattern: /\b(content calendar|copywriting|publishing|writing posts|writing process|linkedin posts?|content strategy|posting on linkedin|newsletter)\b/i, action: "Take one draft from notes to publication. Mark the edit that needed a human decision and the step that simply repeated last time." },
-  { title: "Client delivery and handoffs", pattern: /\b(client deliverables?|client work|client projects?|onboarding|project briefs?|deliverables?|handoffs?|feedback rounds?)\b/i, action: "Trace one deliverable from the brief to sign-off. Find the first place someone had to ask for missing information, then change the intake question." },
-  { title: "Making time for focused work", pattern: /\b(burnout|overwhelm(?:ed)?|workload|deep work|time management|working hours|work.life balance)\b/i, action: "Review one week of work. Separate time spent making decisions from time spent moving information between tools." },
-  { title: "Putting AI to work", pattern: /\b(artificial intelligence|chatgpt|claude code|codex|generative ai|ai tools?|ai agents?)\b/i, action: "Choose one frequent task with a clear finish line. Run the existing process and the assisted version side by side, including review time." },
-  { title: "Building a community", pattern: /\b(community building|build(?:ing)? a community|my community|our community|community launch|meetups?|networking events?)\b/i, action: "Follow one participant from invitation to their first contribution. Note which step needed a personal reply and which information everyone asked for." },
-  { title: "Hiring and delegation", pattern: /\b(hiring|delegat(?:e|ed|ing|ion)|looking for a freelancer|hired|recruiting)\b/i, action: "Write down one task another person could take over. Specify the inputs, the expected result and the decision that stays with the owner." },
+  { title: "Finding and keeping clients", pattern: /\b(client acquisition|lead generation|finding clients|find clients|referrals?|sales pipeline|inbound leads?)\b/i },
+  { title: "Pricing and getting paid", pattern: /\b(pricing|hourly rates?|day rates?|raising rates|invoic(?:e|es|ing)|late payments?|payment terms)\b/i },
+  { title: "Writing and publishing", pattern: /\b(content calendar|copywriting|publishing|writing posts|writing process|linkedin posts?|content strategy|posting on linkedin|newsletter)\b/i },
+  { title: "Client delivery and handoffs", pattern: /\b(client deliverables?|client work|client projects?|onboarding|project briefs?|deliverables?|handoffs?|feedback rounds?)\b/i },
+  { title: "Making time for focused work", pattern: /\b(burnout|overwhelm(?:ed)?|workload|deep work|time management|working hours|work.life balance)\b/i },
+  { title: "Putting AI to work", pattern: /\b(artificial intelligence|chatgpt|claude code|codex|generative ai|ai tools?|ai agents?)\b/i },
+  { title: "Building a community", pattern: /\b(community building|build(?:ing)? a community|my community|our community|community launch|meetups?|networking events?)\b/i },
+  { title: "Hiring and delegation", pattern: /\b(hiring|delegat(?:e|ed|ing|ion)|looking for a freelancer|hired|recruiting)\b/i },
 ];
 
 function excerpt(text: string, limit: number) {
@@ -186,52 +184,4 @@ export async function researchAudience(input: Input, options: { cacheDir?: strin
   const baseline = !topics.length ? "No dated English posts could be attributed to this audience. Try a more specific role or import posts that identify the authors and their work."
     : `Mapped ${memberPosts.length} dated English posts by ${members.size} audience members.${verified.size && !input.profiles?.length ? " Sources come from the project’s research-candidate sample." : ""} Counts describe this sample. A post may discuss more than one topic.`;
   return { audience:input.audience,baseline,topics };
-}
-
-type DraftLens = { hook: string; exercise: string; question: string };
-
-function connectFocus(focus: string, topic: string): DraftLens {
-  const subject = topic.charAt(0).toLowerCase() + topic.slice(1);
-  if (/\b(?:automat\w*|task factor(?:y|ies)|workflows?|agents?|software|apps?|tools?)\b/i.test(focus)) {
-    return { hook: `Before applying ${focus} to ${subject}, find the decision that should stay with a person.`,
-      exercise: "Run the repeatable step on one real example. Count the minutes saved after someone has checked the result.",
-      question: "Which step would you hand off first, and what would you still review yourself?" };
-  }
-  if (/\b(?:coach\w*|train\w*|teach\w*|course\w*|workshops?|education|mentoring)\b/i.test(focus)) {
-    return { hook: `If I were designing a session on ${focus}, I’d start with a real decision about ${subject}.`,
-      exercise: "Have two people work through the example separately. Compare the decisions they made before showing them a checklist.",
-      question: "Where would a learner need feedback from a person to make the next decision?" };
-  }
-  if (/\b(?:hiring|recruit\w*|talent|delegat\w*)\b/i.test(focus)) {
-    return { hook: `What would a useful work sample for ${focus} look like? Start with ${subject}.`,
-      exercise: "Turn that situation into a short, paid work sample. Give applicants the same inputs and agree on the signs of a good result before reviewing answers.",
-      question: "What would distinguish sound judgment from a polished answer in this example?" };
-  }
-  if (/\b(?:design|brand\w*|marketing|content|storytell\w*|copywriting|positioning)\b/i.test(focus)) {
-    return { hook: `A brief for ${focus} gets sharper when it starts with the audience’s own account of ${subject}.`,
-      exercise: "Write two versions of the brief. Open one with your offer and the other with the problem in the source. Ask a reader what they think each version promises.",
-      question: "Which words would your audience recognize from their own day?" };
-  }
-  return { hook:`What would ${focus} contribute to ${subject} in one concrete case?`,
-    exercise:`Compare the usual approach with one change inspired by ${focus}. Decide what improvement would count before trying it.`,
-    question:"What result would convince you to keep the change?" };
-}
-
-export function draftAudienceTopics(audience:string,focus:string,topics:AudienceTopic[]) {
-  const suggestions: AudienceSuggestion[] = [];
-  for (const topic of new Map(topics.map(t=>[t.id,t])).values()) {
-    const source = topic.sources[0];
-    const action = themes.find(t=>t.title===topic.title)?.action ??
-      "Take one recent example of this issue. Write down what triggered it, which decision mattered most and how you would tell whether a change helped.";
-    const lens = connectFocus(focus,topic.title);
-    const title = lens.hook;
-    const authors = `${topic.authorCount} ${topic.authorCount === 1 ? "author" : "authors"}`;
-    const posts = `${topic.postCount} ${topic.postCount === 1 ? "post" : "posts"}`;
-    suggestions.push({ id:id(topic.id+"\n"+focus), topicId:topic.id, title,
-      reason:`This topic appeared in ${posts} by ${authors} in the sample for ${audience}.`,
-      offerConnection:`${lens.hook} ${lens.exercise}`,
-      samplePost:`${lens.hook}\n\nOne audience member put it this way: “${source.excerpt}”\n\n${action} ${lens.exercise}\n\n${lens.question}`,
-      audienceSource:source.url });
-  }
-  return { suggestions };
 }

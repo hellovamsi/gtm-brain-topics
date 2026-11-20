@@ -6,7 +6,7 @@
 2. Enter what you are building or doing.
 3. Research posts by audience members. Open a topic on the map to inspect the dated posts, excerpts and audience-fit evidence behind it. The two axes show how many distinct authors and how many posts support the topic.
 4. Pick the interests you want to explore.
-5. Generate suggestions pairing those interests with your focus. Review the drafts, accept the ones you want and save them as Markdown.
+5. Export the selected topics and their sources as Markdown.
 
 ## Run locally
 
@@ -33,6 +33,6 @@ Open `show-inspiration-map` with `{}`. The app uses `research-audience` to find 
 
 To use zero credits, open **Existing evidence** and choose **Build map from evidence**. To add imported posts, paste a JSON object containing a `posts` array there before building the map. Each post needs a LinkedIn post permalink (`url`), its author's LinkedIn profile URL (`author`), an ISO timestamp (`postedAt`), the English post text (`text`) and `language: "en"`. An optional `headline` can help establish audience fit. The number of authors and posts records how widely a topic appears in the available evidence. A single post can support a useful idea.
 
-After the user picks interests, the app calls `draft-audience-topics` with the selected topic records, the audience and the user's focus. Each suggestion includes a draft and an audience source. Accepted drafts can be saved to the local workspace or downloaded as Markdown.
+Export the selected topic titles, summaries and dated source links as Markdown.
 
 For spending limits, the native approval dialog and the zero-credit evidence path, see [live research](LIVE-RESEARCH.md).

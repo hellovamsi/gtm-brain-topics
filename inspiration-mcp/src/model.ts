@@ -30,7 +30,6 @@ const ideaSchema = z.object({
   audienceSource: httpsUrl.describe("Direct link to the evidence of the audience's concern."),
   reason: nonEmpty.describe("Explain what the sources show and why this variation fits."),
   offerConnection: nonEmpty,
-  samplePost: nonEmpty.describe("English sample draft grounded in the cited evidence."),
 });
 
 export type Idea = z.infer<typeof ideaSchema>;

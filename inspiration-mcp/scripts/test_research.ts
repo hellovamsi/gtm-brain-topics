@@ -35,8 +35,8 @@ test("trace requires the same identified engager and yields distinct grounded tr
   ]);
   const qualified = await researchFocus({ profile: founder, focus: "task factory for solopreneurs", evidence: { posts, interactions } }, options);
   assert.equal(qualified.ideas.length, output.ideas.length);
-  assert.match(qualified.ideas[0].samplePost, /solopreneurs/i);
-  assert.equal(new Set(output.ideas.map(i => i.samplePost)).size, 3);
+  assert.match(qualified.ideas[0].title, /solopreneurs/i);
+  assert.ok(output.ideas.every(idea => !("samplePost" in idea)));
   assert.ok(output.ideas.every(i => i.trail?.actor === actor && i.founderSource === url(1)));
   assert.match(output.baseline, /1 focus-matching/);
   assert.equal((await researchFocus({ profile: founder, focus: "task factory", evidence: { posts, interactions: [edge(1), edge(2, stranger)] } }, options)).ideas.length, 0);

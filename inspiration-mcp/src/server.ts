@@ -2,7 +2,7 @@ import { z } from "zod";
 import { saveMarkdown } from "./save.js";
 import { Skybridge } from "skybridge/server";
 import { researchFocus, researchInput } from "./research.js";
-import { audienceInput, draftAudienceTopics, draftInput, researchAudience, audienceSeeds } from "./audience.js";
+import { audienceInput, researchAudience, audienceSeeds } from "./audience.js";
 import { runAuthorizedAudienceCollection, runAuthorizedCollection } from "./live.js";
 import { mapInput, type InspirationMap } from "./model.js";
 
@@ -22,7 +22,7 @@ export const app = new Skybridge({
       name: "show-inspiration-map",
       description: [
         "Open the inspiration map with {} to ask who the user wants to reach.",
-        "Call research-audience to map the audience’s own English LinkedIn posts. Ask the user to select topics, then call draft-audience-topics to connect only those topics to the user's focus.",
+        "Call research-audience to map the audience’s own English LinkedIn posts. Let the user select topics and export their sources.",
         "This view can also display a previously supplied founder map. Never invent sources or publish posts.",
       ].join(" "),
       inputSchema: mapInput,
@@ -42,7 +42,7 @@ export const app = new Skybridge({
   ).registerTool(
     {
       name: "research-audience",
-      description: "Discover what an audience discusses in its own dated English posts. Discover authors from the audience definition. The profile field identifies the founder, whose posts are excluded. Focus is reserved for drafting. Return observed topics with source excerpts and sample counts so the user can choose what to explore.",
+      description: "Discover what an audience discusses in its own dated English posts. Discover authors from the audience definition. The profile field identifies the founder, whose posts are excluded. Discovery uses the audience description. Return observed topics with source excerpts and sample counts so the user can choose what to explore.",
       inputSchema: audienceInput,
       annotations: { readOnlyHint: true, openWorldHint: true, destructiveHint: false },
     },
@@ -52,17 +52,6 @@ export const app = new Skybridge({
         ? await runAuthorizedAudienceCollection(input.audience, profiles, input.maxCredits) : "cached";
       const map = await researchAudience(input);
       return { structuredContent: { ...map, collection }, content: [{ type: "text" as const, text: map.baseline }] };
-    },
-  ).registerTool(
-    {
-      name: "draft-audience-topics",
-      description: "Draft post suggestions from the user's selected audience topics and editorial focus. Pass only topics the user picked from research-audience. Each draft preserves its audience source.",
-      inputSchema: draftInput,
-      annotations: { readOnlyHint: true, openWorldHint: false, destructiveHint: false },
-    },
-    async ({ audience,focus,topics }) => {
-      const drafts = draftAudienceTopics(audience,focus,topics);
-      return { structuredContent:drafts, content:[{ type:"text" as const, text:`Drafted ${drafts.suggestions.length} selected topics.` }] };
     },
   ).registerTool(
     {
@@ -79,7 +68,7 @@ export const app = new Skybridge({
   ).registerTool(
     {
       name: "save-markdown",
-      description: "Save the founder's explicitly accepted Markdown to the local workspace after they click Save.",
+      description: "Save the user's selected topics and sources to the local workspace after they click Save.",
       inputSchema: { markdown: z.string().min(1).max(200000) },
       annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: false, idempotentHint: true },
     },

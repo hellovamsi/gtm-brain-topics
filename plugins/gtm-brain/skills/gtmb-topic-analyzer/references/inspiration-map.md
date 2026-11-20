@@ -9,9 +9,7 @@ Show sourced audience interests as individually selectable topics. Explain what 
 supports, including whether the topic appeared only once. Keep the observed interest
 separate from a proposed connection to the person's work.
 
-After the person picks topics, generate suggestions combining each selected audience interest
-with what they are building or doing. Preserve original sources and distinguish the draft's
-inferences from the audience member's words. Let the person review and accept drafts.
+Export the selected topics with their original sources.
 
 ## Standalone HTML delivery
 

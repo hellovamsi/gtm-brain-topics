@@ -7,7 +7,7 @@ the first version's architecture and its remaining validation limits.
 
 | Skill | Question it answers | Result |
 | --- | --- | --- |
-| `/gtmb-topic-analyzer` | Which recurring questions and problems deserve our attention? | Selectable map of sourced audience interests, with post suggestions generated after topic selection |
+| `/gtmb-topic-analyzer` | Which recurring questions and problems deserve our attention? | Selectable map of sourced audience interests, with a Markdown export of selected topics and sources |
 | `/gtmb-audience-loop` | Which people and live conversations are relevant to our offering? | For founder inspiration, a selectable interest map sourced directly from audience members. For buyer and host discovery, assessed candidates and opportunities |
 
 Run either skill directly for one sitting, or start its Topic analysis or Audience discovery

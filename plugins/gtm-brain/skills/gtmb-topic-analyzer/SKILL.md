@@ -19,8 +19,7 @@ First ask who the target audience is. Then ask what the person is building or do
 answers already supplied. With the connected `show-inspiration-map` tool, open the app with
 `{}` and let the person complete those steps there. Map interests found directly in English
 posts or comments by audience members, with source links and evidence of audience fit.
-After the person selects topics, generate suggestions that combine the selected interests
-with their work. Let them review, accept and save drafts.
+Let the person select topics and export their sources.
 
 For standalone HTML delivery, follow [the audience map instructions](references/inspiration-map.md).
 
@@ -45,8 +44,7 @@ from the same eligible set. Keep broad research inventory separate from eligible
 
 Cluster by the audience's underlying problem or question, preserving source wording.
 Compare relevance, recurrence, urgency and confidence independently. Place each sourced audience
-interest on the interactive map, with its supporting authors and posts. Generate post suggestions
-after the person chooses interests. For standalone delivery, follow [the map instructions](references/inspiration-map.md)
+interest on the interactive map, with its supporting authors and posts. For standalone delivery, follow [the map instructions](references/inspiration-map.md)
 and return the HTML link. Retain only confirmed picks as reviewed priorities.
 
 ## Retain and hand off

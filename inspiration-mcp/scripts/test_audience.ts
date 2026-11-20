@@ -3,7 +3,7 @@ import { test } from "node:test";
 import { mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { draftAudienceTopics, researchAudience, resolveAudienceProfiles } from "../src/audience.js";
+import { researchAudience, resolveAudienceProfiles } from "../src/audience.js";
 
 const author = "https://www.linkedin.com/in/example-reader";
 const outsider = "https://www.linkedin.com/in/example-outsider";
@@ -27,14 +27,6 @@ test("member posts drive interests independently of focus and founder interactio
   assert.equal(map.topics.length,2);
   assert.ok(map.topics.every(t=>t.authorCount===1 && t.postCount===1 && t.sources[0].author===author));
   assert.ok(map.topics.every(t=>!("samplePost" in t)));
-  const picked=map.topics.find(t=>t.title.includes("Pricing"))!;
-  const automation=draftAudienceTopics(request.audience,"invoice automation",[picked]).suggestions;
-  const training=draftAudienceTopics(request.audience,"bookkeeping workshops",[picked]).suggestions;
-  assert.equal(automation.length,1);
-  assert.equal(automation[0].audienceSource,evidence.posts[0].url);
-  assert.match(automation[0].samplePost,/minutes saved/);
-  assert.match(training[0].samplePost,/learn[e]r/);
-  assert.match(training[0].samplePost,/last two quotes or invoices/);
 });
 
 test("discovery relies on the author's own role, never a mention of the target",async()=>{

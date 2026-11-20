@@ -68,7 +68,7 @@ assert.match(JSON.stringify(start), /audience/i);
 const researchName = "research-audience";
 const draftName = "draft-audience-topics";
 assert.ok(tools.some(item => item.name === researchName), "Missing audience research tool");
-assert.ok(tools.some(item => item.name === draftName), "Missing suggestion tool");
+assert.ok(!tools.some(item => item.name === draftName), "Removed draft tool was advertised");
 
 const audience = "Independent exhibition designers";
 const focus = "A tool for turning project handoffs into repeatable tasks";
@@ -95,14 +95,6 @@ assert.ok(research.topics.every(topic => !topic.samplePost), "Research generated
 const sources = research.topics.flatMap(topic => topic.sources);
 assert.ok(sources.some(source => source.url === posts[0].url));
 assert.ok(sources.every(source => source.url !== posts[2].url), "Founder appeared among audience sources");
-const selected = research.topics[0];
-const { suggestions } = await call(draftName, { audience, focus, topics: [selected] });
-assert.ok(suggestions.length > 0);
-for (const suggestion of suggestions) {
-  assert.equal(suggestion.topicId, selected.id);
-  assert.ok(suggestion.samplePost && suggestion.offerConnection);
-  assert.ok(selected.sources.some(source => source.url === suggestion.audienceSource));
-}
 const missing = await call(researchName, { audience, profiles: [outsider], evidence: { posts: [] } });
 assert.deepEqual(missing.topics, []);
 assert.ok(missing.baseline);
@@ -113,4 +105,4 @@ assert.ok(html, "Resource did not return HTML");
 assert.match(html.text, /<script\b/i, "View has no script");
 assert.match(html.text, /inspiration-map/, "HTML does not reference the inspiration map component");
 
-console.log("Passed audience intake, source filtering, map discovery, missing-evidence reporting, selected-topic suggestions, and HTML resource read.");
+console.log("Passed audience intake, source filtering, map discovery, missing-evidence reporting, draft tool removal, and HTML resource read.");

@@ -132,7 +132,7 @@ function terms(text: string) {
   return new Set((text.toLowerCase().match(/[\p{L}\p{N}]+/gu) ?? [])
     .filter(word => !stop.has(word)).map(word => word.length > 4 ? word.replace(/s$/, "") : word));
 }
-// In "task factory for solopreneurs", the audience guides the draft.
+// In "task factory for solopreneurs", the suffix describes the audience.
 // Founder posts only need to discuss the core topic to seed the map.
 function discoveryTerms(focus: string) {
   const subject = focus.trim().match(/^(task\s+factor(?:y|ies))\s+for\s+.+$/i);
@@ -152,7 +152,6 @@ function matchesFocus(words: Set<string>, focus: Set<string>) {
 
 function treatment(seed: Post, other: Post, focus: string) {
   const keyword = excerpt(focus, 65);
-  const firstExcerpt = excerpt(seed.text, 130), otherExcerpt = excerpt(other.text, 145);
   const focusWords = discoveryTerms(focus), seedWords = terms(seed.text), otherWords = terms(other.text);
   const shared = [...otherWords].filter(word => word.length > 3 && seedWords.has(word));
   const topic: Idea["topic"] = matchesFocus(otherWords, focusWords) ? "Familiar topic" :
@@ -162,14 +161,11 @@ function treatment(seed: Post, other: Post, focus: string) {
   const angle: Idea["angle"] = challenge ? "Fresh take" : procedure || topic === "Familiar topic" ? "Variation" : "Different lens";
   if (angle === "Fresh take") return { topic, angle,
     title: `Where does ${keyword} break down?`,
-    samplePost: `When does advice about ${keyword} stop working?\n\nStart with this observation: “${firstExcerpt}”\n\nNow read the qualification in a second account: “${otherExcerpt}”\n\nWhat condition would change your answer? I'd like to hear about a case where you had to change course.`,
   };
   if (angle === "Variation") return { topic, angle,
     title: `A small experiment in ${keyword}`,
-    samplePost: `What could you test on your next pass through ${keyword}?\n\nOne starting point: “${firstExcerpt}”\n\nAnother account offers a comparison: “${otherExcerpt}”\n\nPick one step, change how you do it once, and compare the result with your usual approach. Which step would you choose?`,
   };
   return { topic, angle, title: `${keyword} through a different lens`,
-    samplePost: `A question about ${keyword}:\n\n“${firstExcerpt}”\n\nConsider a second perspective alongside it: “${otherExcerpt}”\n\nWhere do these observations meet in your day-to-day work? What would you reconsider after reading them together?`,
   };
 }
 

@@ -17,7 +17,7 @@ npm run dev
 
 If the fork is already checked out, start in its `inspiration-mcp` directory. Keep the server running. Open the local URL it prints, select **show-inspiration-map**, leave the input as `{}`, and click **Run**. In an MCP Apps host already connected to this server’s HTTP `/mcp` endpoint, call the same tool with `{}`.
 
-In a second terminal in the app directory, run the following command using the actual server port. The test imports synthetic evidence, checks that the founder is excluded, selects a topic, obtains a sourced draft and reads the widget resource. It uses zero credits and requires no provider account.
+In a second terminal in the app directory, run the following command using the actual server port. The test imports synthetic evidence, checks that the founder is excluded, checks the sourced topics and the removal of the drafting tool and reads the widget resource. It uses zero credits and requires no provider account.
 
 ```sh
 node scripts/smoke.mjs http://localhost:3000/mcp
@@ -29,7 +29,7 @@ node scripts/smoke.mjs http://localhost:3000/mcp
 2. Enter **a tool for turning project handoffs into repeatable tasks** as your focus.
 3. Expand **Existing evidence**. Paste the synthetic fixture below into **Evidence JSON**, then click **Build map from evidence**. The fixture uses example identities and illustrative post links. For actual research, supply dated English posts with real author and post URLs, or use an existing research cache.
 4. Click a numbered point on the map and expand **Audience sources** to inspect the evidence. The horizontal axis counts source posts and the vertical axis counts authors. Click **Select topic** for each interest you want.
-5. Click **Get suggestions**. Review the sample posts combining those interests with your focus. Accept at least one draft, continue, and choose **Download Markdown** or **Save to local workspace**. The latter writes to `../inspiration-drafts` relative to the app directory. The server reports the exact filename.
+5. Click **Export topics**, review your selection, then choose **Download Markdown** or **Save to local workspace**. The server shows the saved filename.
 
 ```json
 {
@@ -52,7 +52,7 @@ Set these optional environment variables in the server terminal **before** start
 | --- | --- |
 | `INSPIRATION_CACHE_DIR` | Existing collector’s `data/audience-loop/cache` directory. Set this when using an external collector so the map reads its results. |
 | `INSPIRATION_ICP_PATH` | Optional private audience definition and matching research candidates. |
-| `INSPIRATION_DRAFTS_DIR` | Destination for accepted Markdown saved by the server. |
+| `INSPIRATION_DRAFTS_DIR` | Destination for selected topics saved by the server. |
 | `INSPIRATION_COLLECTOR_DIR` | Root of the optional LinkedIn Agent checkout that owns the paid-request ledger. |
 
 Select **Existing evidence → Build map from evidence** with the JSON field empty to use cached posts. A fresh clone contains no customer data. An empty map can mean missing or expired evidence, insufficient evidence of the author’s audience fit, or posts by the founder alone. Check the author URL, headline, language and date first. The number of topics depends on eligible posts and authors.
@@ -86,4 +86,4 @@ npm run build
 node --import tsx --test scripts/test*.ts
 ```
 
-With the companion initialized and patched, also run `python3 -B -m unittest discover -s scripts -p 'test_*.py'`. The tests use mock requests. Rerun the HTTP smoke test against the server you started. For implementation details, follow `src/views/inspiration-map.tsx` for intake and selection, `src/audience.ts` for discovery and drafting, and `scripts/collect_focus.py` for the journaled collection adapter.
+With the companion initialized and patched, also run `python3 -B -m unittest discover -s scripts -p 'test_*.py'`. The tests use mock requests. Rerun the HTTP smoke test against the server you started. For implementation details, follow `src/views/inspiration-map.tsx` for intake and selection, `src/audience.ts` for discovery, and `scripts/collect_focus.py` for the journaled collection adapter.

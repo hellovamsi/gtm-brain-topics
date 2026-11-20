@@ -1,14 +1,14 @@
 import { Fragment, useRef, useState, type FormEvent, type MouseEvent } from "react";
 import { useDownload, useOpenExternal, useViewState } from "skybridge/web";
 import { useCallTool, useToolInfo } from "../helpers.js";
-import type { AudienceSuggestion, AudienceTopic } from "../audience.js";
+import type { AudienceTopic } from "../audience.js";
 import "./inspiration-map.css";
 
 type Step = "audience" | "focus" | "map" | "review" | "export";
 type Workflow = {
   version?: 2 | 3; step?: Step; audience?: string; founderProfile?: string; focus?: string;
   topics?: AudienceTopic[]; baseline?: string; collection?: string; liveRequested?: boolean;
-  picks?: string[]; suggestions?: AudienceSuggestion[]; accepted?: string[];
+  picks?: string[];
 };
 const countLabels = ["1", "2–3", "4+"];
 function countBand(count: number) { return count < 2 ? 0 : count < 4 ? 1 : 2; }
@@ -26,7 +26,6 @@ function sourceProfile(value: string) {
 export default function InspirationMap() {
   const { isPending } = useToolInfo<"show-inspiration-map">();
   const { callToolAsync: researchAudience } = useCallTool("research-audience", { timeout: 10 * 60 * 1000 });
-  const { callToolAsync: draftTopics } = useCallTool("draft-audience-topics");
   const { callToolAsync: saveToWorkspace } = useCallTool("save-markdown");
   const download = useDownload();
   const openExternal = useOpenExternal();
@@ -44,15 +43,14 @@ export default function InspirationMap() {
   const topics = saved.topics ?? [];
   const active = topics.find(topic => topic.id === activeId) ?? topics[0];
   const picked = topics.filter(topic => saved.picks?.includes(topic.id));
-  const suggestions = (saved.suggestions ?? []).filter(idea => picked.some(topic => topic.id === idea.topicId));
-  const accepted = suggestions.filter(idea => saved.accepted?.includes(idea.id));
   let step = saved.step ?? "audience";
   if (!audience) step = "audience";
   else if (step !== "audience" && !focus) step = "focus";
-  else if ((step === "review" || step === "export") && !suggestions.length) step = "map";
-  else if (step === "export" && !accepted.length) step = "review";
-  const md = ["# Accepted post drafts", `Audience: ${audience}`, `Founder’s work: ${focus}`,
-    ...accepted.map(idea => [`## ${idea.title}`, idea.samplePost, `Audience source: ${idea.audienceSource}`].join("\n\n"))
+  else if (step === "review" || (step === "export" && !picked.length)) step = "map";
+  const md = ["# Selected audience interests", `Audience: ${audience}`, `Focus: ${focus}`,
+    ...picked.map(topic => [`## ${topic.title}`, topic.summary,
+      ...topic.sources.map(source => `- ${source.postedAt.slice(0, 10)} · ${source.url}`)
+    ].join("\n\n"))
   ].join("\n\n") + "\n";
   let collectionNotice = "";
   if (saved.collection === "approval_unavailable") {
@@ -88,7 +86,7 @@ export default function InspirationMap() {
       field.reportValidity(); return;
     }
     if (audience !== nextAudience || founderProfile !== saved.founderProfile) setEvidence("");
-    change({ audience: nextAudience, founderProfile, step: "focus", topics: [], picks: [], suggestions: [], accepted: [] });
+    change({ audience: nextAudience, founderProfile, step: "focus", topics: [], picks: [] });
   }
 
   async function research(event: FormEvent<HTMLFormElement>) {
@@ -126,7 +124,7 @@ export default function InspirationMap() {
       const map = result.structuredContent;
       if (!Array.isArray(map?.topics)) throw Error("Research returned no usable map.");
       change({ focus: nextFocus, topics: map.topics, baseline: map.baseline, collection: map.collection,
-        picks: [], accepted: [], suggestions: [], liveRequested: requestApproval, step: "map" });
+        picks: [], liveRequested: requestApproval, step: "map" });
       setActiveId("");
     } catch (error) {
       const message = error instanceof Error ? error.message : "Research could not finish.";
@@ -137,25 +135,7 @@ export default function InspirationMap() {
 
   function togglePick(id: string) {
     const current = saved.picks ?? [];
-    change({ picks: current.includes(id) ? current.filter(item => item !== id) : [...current, id],
-      suggestions: [], accepted: [] });
-  }
-
-  async function suggest() {
-    if (researchInFlight.current || !picked.length) return;
-    if (suggestions.length) { change({ step: "review" }); return; }
-    researchInFlight.current = true;
-    setBusy(true);
-    setStatus("Combining your work with the selected audience interests…");
-    try {
-      const result = await draftTopics({ audience, focus, topics: picked });
-      if (result.isError || !result.structuredContent?.suggestions?.length) {
-        const message = result.content?.find(block => block.type === "text");
-        throw Error(message?.type === "text" ? message.text : "No suggestions were available. Choose another topic and try again.");
-      }
-      change({ suggestions: result.structuredContent.suggestions, accepted: [], step: "review" });
-    } catch (error) { setStatus(error instanceof Error ? error.message : "Suggestions could not load."); }
-    finally { researchInFlight.current = false; setBusy(false); }
+    change({ picks: current.includes(id) ? current.filter(item => item !== id) : [...current, id] });
   }
 
   async function copyMarkdown() {
@@ -191,7 +171,7 @@ export default function InspirationMap() {
     setStatus("");
     try {
       const result = await download({ contents: [{ type: "resource", resource: {
-        uri: "file:///inspiration-drafts.md", mimeType: "text/markdown", text: md,
+        uri: "file:///selected-topics.md", mimeType: "text/markdown", text: md,
       } }] });
       if (result.isError) throw Error();
       setStatus("Markdown download requested.");
@@ -266,28 +246,14 @@ export default function InspirationMap() {
           </article>
         </>}
         <footer><button type="button" className="pick" disabled={busy} onClick={() => change({ step: "focus" })}>Back to research</button>
-          {active && <button type="button" disabled={busy || !picked.length} onClick={() => void suggest()}>Get suggestions ({picked.length}) →</button>}</footer>
+          {active && <button type="button" disabled={busy || !picked.length} onClick={() => change({ step: "export" })}>Export topics ({picked.length}) →</button>}</footer>
       </>}
-      {step === "review" && <section>
-        <h2 className="section-title">Post suggestions</h2>
-        <p className="context"><b>Your work</b> {focus}</p>
-        {suggestions.map(idea => <article key={idea.id} className="detail draft">
-          <div className="meta">{picked.find(topic => topic.id === idea.topicId)?.title}</div>
-          <h3>{idea.title}</h3><p>{idea.reason}</p><p>{idea.offerConnection}</p>
-          <h4>Sample post</h4><blockquote>{idea.samplePost}</blockquote>
-          <a href={idea.audienceSource} onClick={openSource}>Audience source ↗</a>
-          <label><input type="checkbox" checked={accepted.includes(idea)} onChange={() => change({ accepted: accepted.includes(idea)
-            ? accepted.filter(item => item.id !== idea.id).map(item => item.id) : [...accepted.map(item => item.id), idea.id] })}/> Accept this draft</label>
-        </article>)}
-        <footer><button type="button" className="pick" onClick={() => change({ step: "map" })}>Back to topics</button>
-          <button type="button" disabled={!accepted.length} onClick={() => change({ step: "export" })}>Continue with {accepted.length} accepted →</button></footer>
-      </section>}
       {step === "export" && <section>
-        <h2 className="section-title">Save accepted drafts</h2>
-        <ul>{accepted.map(idea => <li key={idea.id}>{idea.title}</li>)}</ul>
-        <footer><button type="button" className="pick" disabled={busy} onClick={() => change({ step: "review" })}>Back to review</button>
-          <button type="button" className="pick" disabled={busy || !accepted.length} onClick={() => void saveMarkdown()}>Download Markdown ↓</button>
-          <button type="button" disabled={busy || !accepted.length} onClick={() => void saveLocally()}>Save to local workspace</button></footer>
+        <h2 className="section-title">Selected topics</h2>
+        <ul>{picked.map(idea => <li key={idea.id}>{idea.title}</li>)}</ul>
+        <footer><button type="button" className="pick" disabled={busy} onClick={() => change({ step: "map" })}>Back to topics</button>
+          <button type="button" className="pick" disabled={busy || !picked.length} onClick={() => void saveMarkdown()}>Download Markdown ↓</button>
+          <button type="button" disabled={busy || !picked.length} onClick={() => void saveLocally()}>Save to local workspace</button></footer>
         {showMarkdown && <><label htmlFor="markdown">Markdown to copy</label><textarea id="markdown" readOnly value={md} onFocus={event => event.target.select()} />
           <button type="button" className="pick" onClick={() => void copyMarkdown()}>Copy Markdown</button></>}
       </section>}

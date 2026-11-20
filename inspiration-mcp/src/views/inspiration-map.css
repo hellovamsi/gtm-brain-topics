@@ -1,0 +1,56 @@
+:root { color-scheme: light; background: #fff; }
+body { margin: 0; }
+.inspiration, .inspiration * { box-sizing: border-box; }
+.inspiration { max-width: 860px; margin: auto; padding: clamp(16px,4vw,36px); color: #233832; background: #fcfbf7; border: 1px solid #d5dad1; border-radius: 20px; font: 15px/1.5 system-ui,sans-serif; overflow-wrap: anywhere; }
+.inspiration header,.inspiration footer,.form-row,.inspiration nav { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+.inspiration header { border-bottom:1px solid #bac8bc; padding-bottom:16px; }
+.inspiration h1,.inspiration h2 { font: normal clamp(30px,5.5vw,47px)/1.07 Georgia,serif; letter-spacing:-.04em; margin:0; }
+.inspiration h2 { font-size:clamp(23px,3.8vw,32px); margin:8px 0; }
+.inspiration h3,.inspiration label { font-size:14px; font-weight:700; margin:14px 0 3px; }
+.inspiration p { margin:6px 0 12px; }
+.inspiration .baseline,.inspiration .intro { margin:16px 0 22px; max-width:70ch; }
+.inspiration a { color:#285d50; text-underline-offset:3px; font-size:14px; }
+.inspiration button,.inspiration input,.inspiration textarea { font:inherit; }
+.inspiration button { cursor:pointer; padding:9px 16px; background:#244f42; border:1px solid #244f42; color:white; border-radius:9px; font-weight:600; }
+.inspiration button:disabled { opacity:.5; cursor:default; }
+.inspiration :focus-visible { outline:3px solid #255dae; outline-offset:3px; }
+.inspiration label {display:block;}
+.form-row input,.inspiration input[type="url"],.inspiration textarea { width:100%; min-width:0; padding:10px 12px; border:1px solid #89998e; border-radius:8px; background:white; color:#233832; }
+.form-row input { flex:1 1 200px; }
+.inspiration textarea { min-height:100px; }
+.plot { padding:14px 0; }
+.grid { display:grid; grid-template-columns:minmax(50px,.66fr) repeat(3,minmax(0,1.4fr)); gap:4px; }
+.angle-label,.topic-label,.row-label,.col-label,.meta { font-size:12px; }
+.angle-label,.topic-label { font-weight:700; }
+.topic-label { text-align:right; margin-top:5px; }
+.row-label { align-self:center; font-weight:600; }
+.col-label { text-align:center; font-weight:600; }
+.cell { display:flex; flex-wrap:wrap; align-content:center; justify-content:center; min-height:44px; padding:5px; gap:4px; border-radius:6px; background:var(--tone); }
+.t0 { --tone:#d9ebe1; }.t1 { --tone:#f1e7c7; }.t2 { --tone:#f2dacf; }
+.a0 { background:linear-gradient(#9585b22e,#9585b22e),var(--tone); }.a2 { background:linear-gradient(#ffffff55,#ffffff55),var(--tone); }
+.inspiration .point { border-radius:50%; padding:0; width:31px; height:31px; background:#fff; color:#233832; border:1px solid #677b6f; font-size:13px; }
+.inspiration .point[aria-pressed=true] { background:#244f42; color:white; }
+.detail { padding:clamp(12px,3vw,24px); background:#fff; border:1px solid #d5dad1; border-radius:12px; }
+.meta { color:#496256; }.meta span { padding:0 6px; }
+.inspiration blockquote { margin:6px 0 14px; padding:10px 14px; border-left:3px solid #8da78f; background:#f6f7f1; white-space:pre-wrap; }
+.inspiration nav { justify-content:flex-start; margin:12px 0; }
+.inspiration .pick { background:white; color:#244f42; }
+.inspiration .pick[aria-pressed=true] { background:#e4efe5; }
+.inspiration footer { padding-top:14px; }
+.inspiration .status { margin-top:12px; }
+.inspiration .section-title { margin:20px 0 12px; }
+.inspiration .draft { margin:10px 0; }
+.inspiration .draft h3 { margin-top:0; font:normal 22px/1.2 Georgia,serif; }
+.inspiration input[type=checkbox] { width:18px; height:18px; vertical-align:middle; accent-color:#244f42; }
+.inspiration .evidence { margin:12px 0; }
+.inspiration summary { cursor:pointer; font-weight:600; color:#285d50; }
+.inspiration pre { white-space:pre-wrap; font-size:12px; background:#f2f3ec; padding:10px; }
+.live-fetch { display:flex; flex-wrap:wrap; align-items:flex-end; gap:12px; margin-bottom:18px; }
+.live-fetch label { margin-top:4px; }
+.live-fetch input { width:92px; border:1px solid #89998e; border-radius:8px; background:white; color:#233832; padding:9px 10px; }
+.evidence > button { margin-top:8px; }
+.inspiration .profiles { min-height:64px; }
+.inspiration .context { margin:16px 0; color:#40584c; }
+.inspiration .context b { display:block; font-size:12px; }
+.inspiration .source { margin:12px 0; padding-left:12px; border-left:2px solid #bac8bc; }
+.inspiration h4 { margin:12px 0 0; }

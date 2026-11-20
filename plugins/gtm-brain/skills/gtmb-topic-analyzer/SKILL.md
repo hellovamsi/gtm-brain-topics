@@ -13,6 +13,17 @@ allowed-tools: [Bash, Read]
 Use [the method](references/method.md) to choose topics from evidence. This skill can run
 without the audience loop, using customer interviews, CRM notes or supplied source material.
 
+## Start a founder inspiration run
+
+First ask who the target audience is. Then ask what the person is building or doing. Reuse
+answers already supplied. With the connected `show-inspiration-map` tool, open the app with
+`{}` and let the person complete those steps there. Map interests found directly in English
+posts or comments by audience members, with source links and evidence of audience fit.
+After the person selects topics, generate suggestions that combine the selected interests
+with their work. Let them review, accept and save drafts.
+
+For standalone HTML delivery, follow [the audience map instructions](references/inspiration-map.md).
+
 ## Frame the analysis
 
 Reuse the resolved brain, person and project. Follow [context routing](../gtmb-use-brain/references/context-routing.md)
@@ -33,13 +44,10 @@ bind assessments to evidence and profile revisions, and feed every recommendatio
 from the same eligible set. Keep broad research inventory separate from eligible opportunities.
 
 Cluster by the audience's underlying problem or question, preserving source wording.
-Compare relevance, recurrence, urgency and confidence independently. Produce a compact table:
-topic, audience/problem, independent evidence and dates, contradictory evidence, relevance,
-confidence, proposed angle and next validation. Include weak or rejected themes when they
-change the priority decision. A shortage of evidence is an acceptable result.
-
-Show the shortlist and ask what to accept or correct before retaining priorities as decisions.
-An accepted topic is a priority for exploration, not proof of demand or approval to publish.
+Compare relevance, recurrence, urgency and confidence independently. Place each sourced audience
+interest on the interactive map, with its supporting authors and posts. Generate post suggestions
+after the person chooses interests. For standalone delivery, follow [the map instructions](references/inspiration-map.md)
+and return the HTML link. Retain only confirmed picks as reviewed priorities.
 
 ## Retain and hand off
 
@@ -57,5 +65,5 @@ IDs/report reference, audience/profile, discovery queries and unresolved evidenc
 The receiving workflow qualifies people independently; topic fit does not establish ICP fit.
 The audience loop can return source pointers for a later topic analysis without starting one.
 
-Finish with the report, accepted priorities and unresolved gaps. Do not publish, send outreach,
+Finish with the linked HTML map, accepted priorities and unresolved gaps. Do not publish, send outreach,
 admit people to tracking lists, schedule runs or send Slack reports through this skill.

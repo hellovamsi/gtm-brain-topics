@@ -1,0 +1,54 @@
+diff --git a/scripts/audience_loop_collect.py b/scripts/audience_loop_collect.py
+index 27bce02..d059c53 100644
+--- a/scripts/audience_loop_collect.py
++++ b/scripts/audience_loop_collect.py
+@@ -82,7 +82,11 @@ def available(config, state, run, day):
+                config['daily_credit_cap']-state['days'].get(day, {}).get('credits_reserved',0),
+                config['prototype_total_credit_cap']-state['credits_reserved_total'])
+ 
+-def collect(run_id, endpoint, body):
++class BudgetExhausted(ValueError):
++    """The next request would exceed a configured allowance."""
++
++
++def collect(run_id, endpoint, body, *, local_grant=None, run_limit=None):
+     if endpoint not in ALLOWED: raise ValueError('Unsupported operation')
+     validate_body(endpoint, body)
+     if not run_id or any(c not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_' for c in run_id):
+@@ -92,13 +96,25 @@ def collect(run_id, endpoint, body):
+         raise ValueError('Use bounded pages of at most 25')
+     if body.get('page',1)<1 or body.get('per_page',25)<1 or body.get('max_results',25)<1:
+         raise ValueError('Invalid page bounds')
+-    key,_=load_key()
++    if run_limit is not None and (type(run_limit) is not int or not 1 <= run_limit <= 100):
++        raise ValueError('Run limit must be an integer from 1 to 100')
+     with (BASE/'run.lock').open('a') as lock:
+         fcntl.flock(lock,fcntl.LOCK_EX)
+         now=dt.datetime.now(ZoneInfo('Europe/Berlin')); day=now.date().isoformat()
+         config=json.loads((ROOT/'config/audience-loop.json').read_text())
+         config=effective_budget(config, day, run_id)
+         state=json.loads((BASE/'state.json').read_text())
++        # A local, human-confirmed grant is confined to this run and day.
++        # It never changes shared settings, the total cap, or an existing ledger.
++        if local_grant is not None:
++            grant_run, grant_day, grant_daily_ceiling, grant_cap = local_grant
++            if grant_run != run_id or grant_day != day:
++                raise ValueError('Local authorization does not cover this run')
++            if type(grant_cap) is not int or not 1 <= grant_cap <= 100:
++                raise ValueError('Invalid local credit grant')
++            config = dict(config, run_credit_cap=grant_cap, daily_credit_cap=grant_daily_ceiling)
++        if run_limit is not None:
++            config = dict(config, run_credit_cap=min(config['run_credit_cap'], run_limit))
+         path=BASE/'runs'/f'{run_id}.json'
+         run=json.loads(path.read_text()) if path.exists() else dict(id=run_id,allocated=0,requests=[],delivery='chat_only')
+         fingerprint=hashlib.sha256(json.dumps([endpoint,body],sort_keys=True).encode()).hexdigest()
+@@ -113,7 +129,8 @@ def collect(run_id, endpoint, body):
+             refresh=state.setdefault('post_refreshes',{}).get(post_key,{})
+             if refresh.get('refresh_count',0)>=config['max_post_refreshes']:
+                 raise ValueError('Post refresh limit reached')
+-        if available(config,state,run,day)<cap: raise ValueError('Budget exhausted')
++        if available(config,state,run,day)<cap: raise BudgetExhausted('Budget exhausted')
++        key,_=load_key()
+         intent=dict(id=uuid.uuid4().hex,fingerprint=fingerprint,key=activity_key,endpoint=endpoint,input=body,reserved=cap,status='pending',started_at=now.isoformat())
+         state['pending'].append(intent);state['credits_reserved_total']+=cap
+         state['days'].setdefault(day,{'credits_reserved':0})['credits_reserved']+=cap

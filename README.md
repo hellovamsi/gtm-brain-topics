@@ -8,6 +8,8 @@ Codex reads them and saves to them in every chat. Open source, [MIT](LICENSE).
 
 ![The brain in one picture. Configuration, on the left, says what is allowed: it sets the fields and kinds of entities and checks every save into memories, and it changes only when you edit the file or approve a change Codex proposes. Entities are who and what the memories are about; names resolve and links derive from the memories. Codex, where you talk, is the only thing that reads your tools, reads the brain and saves into it. Notes and entities keep a link back to their source in your tools. Workflows, underneath, run through Codex under the rules and save each step as a note.](docs/images/brain-in-one-picture.svg)
 
+For this fork’s audience inspiration map, start with the [Codex setup and usage guide](inspiration-mcp/CODEX-HANDOFF.md).
+
 ## 1. Install
 
 You need the Codex desktop app and Node 22.16+ or 24+. Open a new Codex chat and send:

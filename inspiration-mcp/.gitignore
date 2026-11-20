@@ -1,0 +1,9 @@
+node_modules/
+.skybridge/
+dist/
+.env*
+
+.vercel/
+*.tsbuildinfo
+
+__pycache__/

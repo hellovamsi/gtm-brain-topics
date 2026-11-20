@@ -27,10 +27,10 @@ This workflow does not start the other workflow or create a schedule.
 
 ## Steps
 
-1. **Frame the analysis** (skill: gtmb-topic-analyzer). Confirm audience, offering, objective, source window and collection authority. Record a run-scoped completion note through the workflow tool with tag topic-frame only after the work is verified. Milestone: a note tagged topic-frame.
+1. **Frame the analysis** (skill: gtmb-topic-analyzer). For founder inspiration, ask who the target audience is, then what the person is building or doing. Reuse answers already supplied. Confirm audience, offering, objective, source window and collection authority. Record a run-scoped completion note through the workflow tool with tag topic-frame only after the work is verified. Milestone: a note tagged topic-frame.
 2. **Review the evidence** (skill: gtmb-topic-analyzer). Reuse dated sources and collect only authorized gaps; preserve coverage. Record a run-scoped completion note through the workflow tool with tag topic-evidence only after the work is verified. Milestone: a note tagged topic-evidence.
-3. **Analyze the themes** (skill: gtmb-topic-analyzer). Compare recurrence, buyer relevance, urgency, confidence and contradictions. Keep broad inventory separate; apply the shared contribution contract to proposed contribution opportunities and downstream handoffs. Record a run-scoped completion note through the workflow tool with tag topic-shortlist only after the work is verified. Milestone: a note tagged topic-shortlist.
-4. **Review priorities** (skill: gtmb-topic-analyzer). Ask the person to accept or correct the shortlist; record their actual response, then retain accepted outcomes. Record a run-scoped completion note through the workflow tool with tag topic-reviewed only after the work is verified. Milestone: a note tagged topic-reviewed.
+3. **Analyze the themes** (skill: gtmb-topic-analyzer). Map observed audience interests and their source evidence. Compare recurrence, buyer relevance, urgency, confidence and contradictions. Keep broad inventory separate; apply the shared contribution contract to proposed contribution opportunities and downstream handoffs. Record a run-scoped completion note through the workflow tool with tag topic-shortlist only after the work is verified. Milestone: a note tagged topic-shortlist.
+4. **Review priorities** (skill: gtmb-topic-analyzer). For post inspiration, generate suggestions from the selected interests and the person’s focus. Ask the person to accept or correct the shortlist; record their actual response, then retain accepted outcomes. Record a run-scoped completion note through the workflow tool with tag topic-reviewed only after the work is verified. Milestone: a note tagged topic-reviewed.
 
 ## Learn
 

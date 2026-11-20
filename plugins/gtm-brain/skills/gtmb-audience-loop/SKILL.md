@@ -13,6 +13,17 @@ allowed-tools: [Bash, Read]
 Follow [the method](references/method.md). Run independently from the topic analyzer: accepted
 topics are optional discovery seeds, not prerequisites or qualification evidence.
 
+## Start a founder inspiration run
+
+First ask who the target audience is. Then ask what the person is building or doing. Reuse
+answers already supplied. With the connected `show-inspiration-map` tool, open the app with
+`{}` and let the person complete those steps there. Map interests found directly in English
+posts or comments by audience members, with source links and evidence of audience fit.
+After the person selects topics, generate suggestions that combine the selected interests
+with their work. Let them review, accept and save drafts.
+
+For standalone HTML delivery, follow [the audience map instructions](../gtmb-topic-analyzer/references/inspiration-map.md).
+
 ## Resume and frame
 
 Reuse the resolved brain, person and project. Follow [context routing](../gtmb-use-brain/references/context-routing.md)
@@ -25,6 +36,16 @@ Ask only for material gaps through [question handling](../gtmb-start/references/
 If using the manual Audience discovery workflow, `workflow` is the only run-state writer.
 Resume its current step, performing only that stage here. Keep provider request state in the
 existing collector and its ledger, separate from the workflow's progress notes.
+
+## Founder inspiration list
+
+When the goal is better LinkedIn posts, use the ICP to identify people whose work reflects the
+audience. Assess each person as an inspiration source using their actual posts or comments,
+their professional fit and the perspective they add to the existing list. Buying intent and
+hosting a discussion are unnecessary. Keep this list separate from sales prospects. Apply the
+collection and retention rules below, but use inspiration fit in place of buyer/host admission.
+Deliver their observed interests through [the inspiration map](../gtmb-topic-analyzer/references/inspiration-map.md)
+in this run. Generate suggestions from the selected interests and the founder's work. A pick records editorial interest only.
 
 ## Discover and assess
 
